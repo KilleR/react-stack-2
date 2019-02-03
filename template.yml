@@ -38,6 +38,21 @@ Resources:
           Type: Api
           Properties:
             Path: /
+            Method: get#
+  GetTest:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: go1.x
+      Role:
+        Fn::GetAtt:
+          - LambdaExecutionRole
+          - Arn
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /test
             Method: get
   LambdaExecutionRole:
     Description: Creating service role in IAM for AWS Lambda
