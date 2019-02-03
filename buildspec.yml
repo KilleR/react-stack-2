@@ -23,6 +23,8 @@ phases:
 
       # Fetch all dependencies
       - go get ./...
+      - go get github.com/awslabs/aws-lambda-go-api-proxy/gorillamux
+      - go get github.com/gorilla/mux
 
       # Ensure code passes all lint tests
       - golint -set_exit_status

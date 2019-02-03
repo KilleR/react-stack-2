@@ -32,5 +32,6 @@ func main() {
 	router.HandleFunc("/test", testHandler)
 	router.HandleFunc("/", handler)
 
-	lambda.Start(gorillamux.New(router))
+	proxy := gorillamux.New(router)
+	lambda.Start(proxy)
 }
