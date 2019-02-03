@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/awslabs/aws-lambda-go-api-proxy/gorillamux"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -10,7 +12,7 @@ import (
 // Handler is executed by AWS Lambda in the main function. Once the request
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-
+	// default response
 	index, err := ioutil.ReadFile("public/index.html")
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
@@ -23,9 +25,12 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 			"Content-Type": "text/html",
 		},
 	}, nil
-
 }
 
 func main() {
-	lambda.Start(Handler)
+	router := mux.NewRouter().StrictSlash(false)
+	router.HandleFunc("/test", testHandler)
+	router.HandleFunc("/", handler)
+
+	lambda.Start(gorillamux.New(router))
 }
