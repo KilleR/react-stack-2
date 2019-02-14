@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"io/ioutil"
 	"net/http"
 )
@@ -29,4 +32,23 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+}
+
+func bucketListHandler(w http.ResponseWriter, r *http.Request) {
+	sess := session.Must(session.NewSession())
+
+	svc := s3.New(sess)
+
+	result, err := svc.ListBuckets(&s3.ListBucketsInput{})
+
+	if err != nil {
+		aerr, ok := err.(awserr.Error)
+		if ok {
+			fmt.Fprintln(w, aerr.Error())
+		} else {
+			fmt.Fprintln(w, err.Error())
+		}
+	}
+
+	fmt.Fprintln(w, result)
 }
