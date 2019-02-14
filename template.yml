@@ -114,7 +114,7 @@ Resources:
       Runtime: go1.x
       Role:
         Fn::GetAtt:
-          - BucketAccesRole
+          - BucketAccessRole
           - Arn
       Events:
         GetEvent:
