@@ -45,7 +45,7 @@ Resources:
       Path: /
       RoleName: !Sub 'CodeStar-${ProjectId}-BucketAccessRole'
       AssumeRolePolicyDocument:
-        Version: '2019-02-14'
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -58,7 +58,7 @@ Resources:
       Policies:
         - PolicyName: s3AllAccessPolicy
           PolicyDocument:
-            Version: '2019-02-14'
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
                 Action:
