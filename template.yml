@@ -39,11 +39,11 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/CodeStar_${ProjectId}_PermissionsBoundary'
-  BucketAccesRole:
+  BucketAccessRole:
     Type: AWS::IAM::Role
     Properties:
       Path: /
-      RoleName: BucketAccesRole # required if you want to use 'serverless deploy --function' later on
+      RoleName: BucketAccessRole # required if you want to use 'serverless deploy --function' later on
       AssumeRolePolicyDocument:
         Version: '2017'
         Statement:
