@@ -24,7 +24,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func testHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := fmt.Fprint(w, "test handler")
+	_, err := fmt.Fprint(w, "test handler!")
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
