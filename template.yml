@@ -38,7 +38,7 @@ Resources:
           Type: Api
           Properties:
             Path: /
-            Method: get#
+            Method: get
   GetTest:
     Type: AWS::Serverless::Function
     Properties:
