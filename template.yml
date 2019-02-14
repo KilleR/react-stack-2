@@ -80,7 +80,6 @@ Resources:
                   Fn::Join:
                     - ""
                     - - "arn:aws:s3:::"
-                      - "Ref": "vp-multiplayer"
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
