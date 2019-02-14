@@ -43,7 +43,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       Path: /
-      RoleName: BucketAccessRole # required if you want to use 'serverless deploy --function' later on
+      RoleName: !Sub 'CodeStar-${ProjectId}-BucketAccessRole'
       AssumeRolePolicyDocument:
         Version: '2017'
         Statement:
