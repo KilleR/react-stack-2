@@ -37,8 +37,50 @@ Resources:
             Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - arn:aws:iam::405136446302:role/LambdaWithS3FullAccess
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/CodeStar_${ProjectId}_PermissionsBoundary'
+  BucketAccesRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      RoleName: MyDefaultRole # required if you want to use 'serverless deploy --function' later on
+      AssumeRolePolicyDocument:
+        Version: '2017'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      # note that these rights are needed if you want your function to be able to communicate with resources within your vpc
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: s3AllAccessPolicy
+          PolicyDocument:
+            Version: '2017'
+            Statement:
+              - Effect: Allow # note that these rights are given in the default policy and are required if you want logs out of your lambda(s)
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - 'Fn::Join':
+                      - ':'
+                      - - 'arn:aws:logs'
+                        - Ref: 'AWS::Region'
+                        - Ref: 'AWS::AccountId'
+                        - 'log-group:/aws/lambda/*:*:*'
+              - Effect: "Allow"
+                Action:
+                  - "s3:PutObject"
+                  - "s3:ListBuckets"
+                Resource:
+                  Fn::Join:
+                    - ""
+                    - - "arn:aws:s3:::"
+                      - "Ref": "vp-multiplayer"
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
@@ -76,7 +118,7 @@ Resources:
       Runtime: go1.x
       Role:
         Fn::GetAtt:
-          - LambdaExecutionRole
+          - BucketAccesRole
           - Arn
       Events:
         GetEvent:
