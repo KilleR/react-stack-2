@@ -43,7 +43,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       Path: /
-      RoleName: MyDefaultRole # required if you want to use 'serverless deploy --function' later on
+      RoleName: BucketAccesRole # required if you want to use 'serverless deploy --function' later on
       AssumeRolePolicyDocument:
         Version: '2017'
         Statement:
@@ -76,10 +76,7 @@ Resources:
                 Action:
                   - "s3:PutObject"
                   - "s3:ListBuckets"
-                Resource:
-                  Fn::Join:
-                    - ""
-                    - - "arn:aws:s3:::"
+                Resource: "*"
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
