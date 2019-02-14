@@ -45,7 +45,7 @@ Resources:
       Path: /
       RoleName: !Sub 'CodeStar-${ProjectId}-BucketAccessRole'
       AssumeRolePolicyDocument:
-        Version: '2017'
+        Version: '2019-02-14'
         Statement:
           - Effect: Allow
             Principal:
