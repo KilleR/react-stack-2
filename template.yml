@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform:
-  - AWS::Serverless-2016-10-31
-  - AWS::CodeStar
+- AWS::Serverless-2016-10-31
+- AWS::CodeStar
 
 Parameters:
   ProjectId:
@@ -85,7 +85,6 @@ Resources:
                   - "s3:PutObjectAcl",
                   - "s3:PutObjectVersionAcl"
                 Resource:
-                  - "arn:aws:s3:::react-stack-data"
                   - "arn:aws:s3:::react-stack-data/*"
               - Effect: "Allow"
                 Action:
@@ -94,7 +93,6 @@ Resources:
                   - "s3:ListBucketMultipartUploads",
                 Resource:
                   - "arn:aws:s3:::react-stack-data"
-                  - "arn:aws:s3:::react-stack-data/*"
               - Effect: "Allow"
                 Action:
                   - "s3:ListAllMyBuckets"
