@@ -79,6 +79,7 @@ Resources:
                   - "s3:GetBucketVersioning"
                   - "s3:PutObject"
                   - "s3:ListBucket"
+                  - "s3:ListBucketByTags"
                 Resource: "*"
   GetHelloWorld:
     Type: AWS::Serverless::Function
