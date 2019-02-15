@@ -110,18 +110,18 @@ Resources:
           Properties:
             Path: /test
             Method: get
-  GetBucketList:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      Role:
-        Fn::GetAtt:
-          - BucketAccessRole
-          - Arn
-      Events:
-        GetEvent:
-          Type: Api
-          Properties:
-            Path: /list
-            Method: get
+#  GetBucketList:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      Handler: main
+#      Runtime: go1.x
+#      Role:
+#        Fn::GetAtt:
+#          - BucketAccessRole
+#          - Arn
+#      Events:
+#        GetEvent:
+#          Type: Api
+#          Properties:
+#            Path: /list
+#            Method: get
