@@ -40,11 +40,11 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 
 	iamClient := iam.New(sess)
 
-	result, err := iamClient.ListAttachedRolePolicies(nil)
+	roleResult, err := iamClient.ListAttachedRolePolicies(nil)
 	if err != nil {
 		fmt.Fprintln(w, "List Roles error:"+err.Error())
 	} else {
-		fmt.Fprintln(w, result)
+		fmt.Fprintln(w, roleResult)
 	}
 
 	svc := s3.New(sess)
