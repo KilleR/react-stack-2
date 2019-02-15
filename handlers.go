@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/iam"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"io/ioutil"
 	"net/http"
@@ -36,6 +37,15 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 	sess := session.Must(session.NewSession())
+
+	iamClient := iam.New(sess)
+
+	result, err := iamClient.ListAttachedRolePolicies(nil)
+	if err != nil {
+		fmt.Fprintln(w, "List Roles error:"+err.Error())
+	} else {
+		fmt.Fprintln(w, result)
+	}
 
 	svc := s3.New(sess)
 
