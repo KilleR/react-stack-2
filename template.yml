@@ -80,6 +80,7 @@ Resources:
                   - "s3:PutObject"
                   - "s3:HeadBucket"
                   - "s3:ListBucket"
+                  - "s3:ListAllMyBuckets"
                   - "s3:ListBucketByTags"
                 Resource: "*"
   GetHelloWorld:
