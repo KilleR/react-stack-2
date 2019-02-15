@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform:
-- AWS::Serverless-2016-10-31
-- AWS::CodeStar
+  - AWS::Serverless-2016-10-31
+  - AWS::CodeStar
 
 Parameters:
   ProjectId:
@@ -74,17 +74,32 @@ Resources:
                         - 'log-group:/aws/lambda/*:*:*'
               - Effect: "Allow"
                 Action:
-                  - "s3:GetObject"
-                  - "s3:GetObjectVersion"
-                  - "s3:GetBucketVersioning"
-                  - "s3:PutObject"
-                  - "s3:HeadBucket"
-                  - "s3:ListBucket"
-                  - "s3:ListAllMyBuckets"
-                  - "s3:ListBucketByTags"
+                  - "s3:AbortMultipartUpload",
+                  - "s3:DeleteObject",
+                  - "s3:DeleteObjectVersion",
+                  - "s3:GetObject",
+                  - "s3:GetObjectAcl",
+                  - "s3:GetObjectVersion",
+                  - "s3:GetObjectVersionAcl",
+                  - "s3:PutObject",
+                  - "s3:PutObjectAcl",
+                  - "s3:PutObjectVersionAcl"
                 Resource:
                   - "arn:aws:s3:::react-stack-data"
                   - "arn:aws:s3:::react-stack-data/*"
+              - Effect: "Allow"
+                Action:
+                  - "s3:ListBucket",
+                  - "s3:GetBucketLocation",
+                  - "s3:ListBucketMultipartUploads",
+                Resource:
+                  - "arn:aws:s3:::react-stack-data"
+                  - "arn:aws:s3:::react-stack-data/*"
+              - Effect: "Allow"
+                Action:
+                  - "s3:ListAllMyBuckets"
+                Resource:
+                  - "*"
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
@@ -92,8 +107,8 @@ Resources:
       Runtime: go1.x
       Role:
         Fn::GetAtt:
-        - LambdaExecutionRole
-        - Arn
+          - LambdaExecutionRole
+          - Arn
       Events:
         GetEvent:
           Type: Api
