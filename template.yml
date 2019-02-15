@@ -19,8 +19,8 @@ Globals:
   Function:
     AutoPublishAlias: prod
     DeploymentPreference:
-      Enabled: false # should be reverted to true once stable
-      Type: AllAtOnce # should revert to Canary10Percent5Minutes once stable
+      Enabled: true
+      Type: Canary10Percent5Minutes
       Role: !Ref CodeDeployRole
 
 Resources:
