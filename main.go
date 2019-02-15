@@ -22,6 +22,8 @@ func init() {
 	router := mux.NewRouter().StrictSlash(false)
 	router.HandleFunc("/test", testHandler)
 	router.HandleFunc("/list", bucketListHandler)
+	router.HandleFunc("/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
+	router.HandleFunc("/{bucket}", bucketDownloadHandler).Methods("GET")
 	router.HandleFunc("/", handler)
 
 	muxLambda = gorillamux.New(router)
