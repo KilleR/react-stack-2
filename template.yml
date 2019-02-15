@@ -17,7 +17,7 @@ Parameters:
 
 Globals:
   Function:
-    AutoPublishAlias: live
+#    AutoPublishAlias: live
     DeploymentPreference:
       Enabled: true
       Type: Canary10Percent5Minutes
@@ -74,6 +74,9 @@ Resources:
                         - 'log-group:/aws/lambda/*:*:*'
               - Effect: "Allow"
                 Action:
+                  - "s3:GetObject"
+                  - "s3:GetObjectVersion"
+                  - "s3:GetBucketVersioning"
                   - "s3:PutObject"
                   - "s3:ListBuckets"
                 Resource: "*"
