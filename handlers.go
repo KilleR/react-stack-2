@@ -39,7 +39,7 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 
 	svc := s3.New(sess)
 
-	result, err := svc.ListBuckets(&s3.ListBucketsInput{})
+	result, err := svc.ListBuckets(nil)
 
 	if err != nil {
 		aerr, ok := err.(awserr.Error)
