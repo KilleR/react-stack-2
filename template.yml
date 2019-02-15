@@ -82,7 +82,9 @@ Resources:
                   - "s3:ListBucket"
                   - "s3:ListAllMyBuckets"
                   - "s3:ListBucketByTags"
-                Resource: "*"
+                Resource:
+                  - "arn:aws:s3:::react-stack-data"
+                  - "arn:aws:s3:::react-stack-data/*"
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
