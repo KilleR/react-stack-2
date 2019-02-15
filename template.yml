@@ -123,3 +123,33 @@ Resources:
           Properties:
             Path: /list
             Method: get
+  UploadBucket:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: go1.x
+      Role:
+        Fn::GetAtt:
+          - BucketAccessRole
+          - Arn
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /{bucket}
+            Method: post
+  DownloadBucket:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: go1.x
+      Role:
+        Fn::GetAtt:
+          - BucketAccessRole
+          - Arn
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /{bucket}
+            Method: get
