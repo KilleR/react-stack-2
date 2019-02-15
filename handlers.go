@@ -60,7 +60,8 @@ func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	res, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   r.Body,
-		Bucket: aws.String(bucket),
+		Bucket: aws.String("react-stack-data"),
+		Key:    aws.String(bucket),
 	})
 
 	if err != nil {
@@ -80,7 +81,8 @@ func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 
 	buf := &aws.WriteAtBuffer{}
 	_, err := downloader.Download(buf, &s3.GetObjectInput{
-		Bucket: aws.String(bucket),
+		Bucket: aws.String("react-stack-data"),
+		Key:    aws.String(bucket),
 	})
 
 	if err != nil {
