@@ -93,6 +93,7 @@ Resources:
           Properties:
             Path: /
             Method: get
+            Cors: true
   GetTest:
     Type: AWS::Serverless::Function
     Properties:
@@ -108,6 +109,7 @@ Resources:
           Properties:
             Path: /test
             Method: get
+            Cors: true
   GetBucketList:
     Type: AWS::Serverless::Function
     Properties:
@@ -123,6 +125,7 @@ Resources:
           Properties:
             Path: /list
             Method: get
+            Cors: true
   UploadBucket:
     Type: AWS::Serverless::Function
     Properties:
@@ -138,6 +141,7 @@ Resources:
           Properties:
             Path: /{bucket}
             Method: post
+            Cors: true
   DownloadBucket:
     Type: AWS::Serverless::Function
     Properties:
@@ -153,3 +157,4 @@ Resources:
           Properties:
             Path: /{bucket}
             Method: get
+            Cors: true
