@@ -117,14 +117,14 @@ Resources:
         Fn::GetAtt:
           - BucketAccessRole
           - Arn
-        Events:
-          UploadBucket:
-            Type: Api
-            Properties:
-              Path: /{bucket}
-              Method: post
-          DownloadBucket:
-            Type: Api
-            Properties:
-              Path: /{bucket}
-              Method: get
+      Events:
+        UploadBucket:
+          Type: Api
+          Properties:
+            Path: /{bucket}
+            Method: post
+        DownloadBucket:
+          Type: Api
+          Properties:
+            Path: /{bucket}
+            Method: get
