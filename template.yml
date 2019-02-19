@@ -23,7 +23,10 @@ Globals:
       Type: Canary10Percent5Minutes
       Role: !Ref CodeDeployRole
   Api:
-    Cors: "'*'"
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
 
 Resources:
   LambdaExecutionRole:
