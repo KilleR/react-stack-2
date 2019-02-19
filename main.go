@@ -14,7 +14,9 @@ var muxLambda *gorillamux.GorillaMuxAdapter
 // Handler is executed by AWS Lambda in the main function. Once the request
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	return muxLambda.Proxy(request)
+	proxyRes, err := muxLambda.Proxy(request)
+	proxyRes.Headers["Access-Control-Allow-Origin"] = "'*'"
+	return proxyRes, err
 }
 
 func init() {
