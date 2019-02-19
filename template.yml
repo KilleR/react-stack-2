@@ -23,7 +23,7 @@ Globals:
       Type: Canary10Percent5Minutes
       Role: !Ref CodeDeployRole
   Api:
-    Cors: "'react.api-it.io'"
+    Cors: "'*'"
 
 Resources:
   LambdaExecutionRole:
