@@ -80,7 +80,7 @@ Resources:
                 Resource:
                   - "arn:aws:s3:::react-stack-data/*"
                   - "arn:aws:s3:::react-stack-data"
-  GetHelloWorld:
+  LambdaFunctions:
     Type: AWS::Serverless::Function
     Properties:
       Handler: main
@@ -90,67 +90,27 @@ Resources:
           - LambdaExecutionRole
           - Arn
       Events:
-        GetEvent:
+        GetHelloWorld:
           Type: Api
           Properties:
             Path: /
             Method: get
-  GetTest:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      Role:
-        Fn::GetAtt:
-          - LambdaExecutionRole
-          - Arn
-      Events:
-        GetEvent:
+        GetTest:
           Type: Api
           Properties:
             Path: /test
             Method: get
-  GetBucketList:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      Role:
-        Fn::GetAtt:
-          - BucketAccessRole
-          - Arn
-      Events:
-        GetEvent:
+        GetBucketList:
           Type: Api
           Properties:
             Path: /list
             Method: get
-  UploadBucket:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      Role:
-        Fn::GetAtt:
-          - BucketAccessRole
-          - Arn
-      Events:
-        GetEvent:
+        UploadBucket:
           Type: Api
           Properties:
             Path: /{bucket}
             Method: post
-  DownloadBucket:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      Role:
-        Fn::GetAtt:
-          - BucketAccessRole
-          - Arn
-      Events:
-        GetEvent:
+        DownloadBucket:
           Type: Api
           Properties:
             Path: /{bucket}
