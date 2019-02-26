@@ -136,10 +136,10 @@ Resources:
         UploadBucketFolder:
           Type: Api
           Properties:
-            Path: /{bucket}
+            Path: /{folder}/{bucket}
             Method: post
         DownloadBucketFolder:
           Type: Api
           Properties:
-            Path: /{bucket}
+            Path: /{folder}/{bucket}
             Method: get
