@@ -40,8 +40,12 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 	svc := newS3Session()
 
+	vars := mux.Vars(r)
+	bucket := vars["bucket"]
+
 	listObjectResult, err := svc.ListObjects(&s3.ListObjectsInput{
 		Bucket: aws.String("react-stack-data"),
+		Prefix: aws.String(bucket),
 	})
 
 	if err != nil {
@@ -56,7 +60,12 @@ func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 	uploader := s3manager.NewUploader(sess)
 
 	vars := mux.Vars(r)
+	folder := vars["folder"]
 	bucket := vars["bucket"]
+
+	if folder != "" {
+		bucket = folder + "/" + bucket
+	}
 
 	res, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   r.Body,
@@ -77,7 +86,12 @@ func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 	downloader := s3manager.NewDownloader(sess)
 
 	vars := mux.Vars(r)
+	folder := vars["folder"]
 	bucket := vars["bucket"]
+
+	if folder != "" {
+		bucket = folder + "/" + bucket
+	}
 
 	buf := &aws.WriteAtBuffer{}
 	_, err := downloader.Download(buf, &s3.GetObjectInput{

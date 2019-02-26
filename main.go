@@ -23,11 +23,14 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 func init() {
 	log.Println("Mux cold start")
-	router := mux.NewRouter().StrictSlash(false)
+	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/test", testHandler)
 	router.HandleFunc("/list", bucketListHandler)
 	router.HandleFunc("/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
 	router.HandleFunc("/{bucket}", bucketDownloadHandler).Methods("GET")
+	router.HandleFunc("/{bucket}/", bucketListHandler).Methods("GET")
+	router.HandleFunc("/{folder}/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
+	router.HandleFunc("/{folder}/{bucket}", bucketDownloadHandler).Methods("GET")
 	router.HandleFunc("/", handler)
 
 	muxLambda = gorillamux.New(router)

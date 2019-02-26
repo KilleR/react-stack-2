@@ -128,3 +128,8 @@ Resources:
           Properties:
             Path: /{bucket}
             Method: get
+        ListBucket:
+          Type: Api
+          Properties:
+            Path: /{bucket}/
+            Method: get
