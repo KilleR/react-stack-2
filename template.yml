@@ -131,5 +131,15 @@ Resources:
         ListBucket:
           Type: Api
           Properties:
-            Path: /{bucket}/
+            Path: /{bucket}/list
+            Method: get
+        UploadBucketFolder:
+          Type: Api
+          Properties:
+            Path: /{bucket}
+            Method: post
+        DownloadBucketFolder:
+          Type: Api
+          Properties:
+            Path: /{bucket}
             Method: get
