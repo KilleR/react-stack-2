@@ -26,9 +26,9 @@ func init() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
 	router.HandleFunc("/{bucket}", bucketDownloadHandler).Methods("GET")
-	router.HandleFunc("/{folder}/list", bucketListHandler).Methods("GET")
-	router.HandleFunc("/{folder}/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
-	router.HandleFunc("/{folder}/{bucket}", bucketDownloadHandler).Methods("GET")
+	router.HandleFunc("/{bucket}/list", bucketListHandler).Methods("GET")
+	router.HandleFunc("/{bucket}/{child}", bucketUploadHandler).Methods("POST", "PUT")
+	router.HandleFunc("/{bucket}/{child}", bucketDownloadHandler).Methods("GET")
 	router.HandleFunc("/", handler)
 
 	muxLambda = gorillamux.New(router)
