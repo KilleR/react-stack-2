@@ -45,7 +45,7 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 
 	listObjectResult, err := svc.ListObjects(&s3.ListObjectsInput{
 		Bucket: aws.String("react-stack-data"),
-		Prefix: aws.String(bucket),
+		Prefix: aws.String(bucket + "/"),
 	})
 
 	if err != nil {
