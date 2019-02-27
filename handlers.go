@@ -41,7 +41,7 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 	svc := newS3Session()
 
 	vars := mux.Vars(r)
-	bucket := vars["bucket"]
+	bucket := vars["folder"]
 
 	listObjectResult, err := svc.ListObjects(&s3.ListObjectsInput{
 		Bucket: aws.String("react-stack-data"),

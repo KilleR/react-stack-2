@@ -128,12 +128,7 @@ Resources:
           Properties:
             Path: /{bucket}
             Method: get
-        ListBucket:
-          Type: Api
-          Properties:
-            Path: /{bucket}/list
-            Method: get
-        UploadBucketFolder:
+        UploadBucketFolder: # this also allows posts to /list which will list the bucket contents
           Type: Api
           Properties:
             Path: /{folder}/{bucket}
