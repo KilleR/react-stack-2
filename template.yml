@@ -131,10 +131,10 @@ Resources:
         UploadBucketFolder: # this also allows posts to /list which will list the bucket contents
           Type: Api
           Properties:
-            Path: /{folder}/{bucket}
+            Path: /{bucket}/{child}
             Method: post
         DownloadBucketFolder:
           Type: Api
           Properties:
-            Path: /{folder}/{bucket}
+            Path: /{bucket}/{child}
             Method: get
