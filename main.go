@@ -15,9 +15,9 @@ var muxLambda *gorillamux.GorillaMuxAdapter
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	proxyRes, err := muxLambda.Proxy(request)
-	proxyRes.Headers["Access-Control-Allow-Origin"] = "*"
-	proxyRes.Headers["Access-Control-Allow-Headers"] = "*"
-	proxyRes.Headers["Access-Control-Allow-Methods"] = "*"
+	proxyRes.MultiValueHeaders["Access-Control-Allow-Origin"] = []string{"*"}
+	proxyRes.MultiValueHeaders["Access-Control-Allow-Headers"] = []string{"*"}
+	proxyRes.MultiValueHeaders["Access-Control-Allow-Methods"] = []string{"*"}
 	return proxyRes, err
 }
 
