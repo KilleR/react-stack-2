@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -10,6 +11,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -42,16 +44,31 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	bucket := vars["bucket"]
+	bucketPrefix := bucket + "/"
 
 	listObjectResult, err := svc.ListObjects(&s3.ListObjectsInput{
 		Bucket: aws.String("react-stack-data"),
-		Prefix: aws.String(bucket + "/"),
+		Prefix: aws.String(bucketPrefix),
 	})
 
 	if err != nil {
 		fmt.Fprintln(w, err.Error())
 	}
-	fmt.Fprintln(w, listObjectResult)
+
+	var output []string
+	for _, v := range listObjectResult.Contents {
+		// strip the prefix
+		bucketFile := strings.Replace(*v.Key, bucketPrefix, "", 1)
+		output = append(output, bucketFile)
+	}
+
+	outBytes, err := json.Marshal(output)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintln(w, string(outBytes))
 }
 
 func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
