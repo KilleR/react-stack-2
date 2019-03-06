@@ -98,16 +98,6 @@ Resources:
           Properties:
             Path: /
             Method: get
-        GetTest:
-          Type: Api
-          Properties:
-            Path: /test
-            Method: get
-        GetBucketList:
-          Type: Api
-          Properties:
-            Path: /list
-            Method: get
   BucketFunctions:
     Type: AWS::Serverless::Function
     Properties:
