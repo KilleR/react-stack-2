@@ -25,6 +25,7 @@ phases:
       - go get ./...
       - go get github.com/awslabs/aws-lambda-go-api-proxy/gorillamux
       - go get github.com/gorilla/mux
+      - go get github.com/auth0/go-jwt-middleware
 
       # Ensure code passes all lint tests
       - golint -set_exit_status

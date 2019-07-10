@@ -7,11 +7,13 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +28,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "Faiiled to write output")
+		fmt.Fprint(w, "Failed to write output")
 		return
 	}
 }
@@ -37,6 +39,45 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+}
+
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	result := newApiResponse(w)
+
+	defer result.Write()
+
+	decoder := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+
+	// decode the JSON body of the request
+	var loginReq loginStruct
+	err := decoder.Decode(&loginReq)
+	if err != nil {
+		result.Status = http.StatusInternalServerError
+		return
+	}
+
+	if loginReq.UserName != "RichardK" || loginReq.Password != "Password1!" {
+		result.Status = http.StatusUnauthorized
+		return
+	}
+
+	/* Create the token */
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	/* Create a map to store our claims */
+	claims := token.Claims.(jwt.MapClaims)
+
+	/* Set token claims */
+	claims["userId"] = loginReq.UserName
+	claims["isAdmin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	/* Sign the token with our secret */
+	tokenString, _ := token.SignedString(mySigningKey)
+
+	/* Finally, write the token to the browser window */
+	result.Result["token"] = tokenString
 }
 
 func bucketListHandler(w http.ResponseWriter, r *http.Request) {

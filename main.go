@@ -4,6 +4,7 @@ import (
 	"github.com/awslabs/aws-lambda-go-api-proxy/gorillamux"
 	"github.com/gorilla/mux"
 	"log"
+	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -24,10 +25,11 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 func init() {
 	log.Println("Mux cold start")
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/{bucket}", bucketUploadHandler).Methods("POST", "PUT")
+	router.HandleFunc("/login", loginHandler).Methods("POST", "PUT")
+	router.Handle("/{bucket}", jwtMiddleware.Handler(http.HandlerFunc(bucketUploadHandler))).Methods("POST", "PUT")
 	router.HandleFunc("/{bucket}", bucketDownloadHandler).Methods("GET")
 	router.HandleFunc("/{bucket}/list", bucketListHandler).Methods("GET")
-	router.HandleFunc("/{bucket}/{child}", bucketUploadHandler).Methods("POST", "PUT")
+	router.Handle("/{bucket}/{child}", jwtMiddleware.Handler(http.HandlerFunc(bucketUploadHandler))).Methods("POST", "PUT")
 	router.HandleFunc("/{bucket}/{child}", bucketDownloadHandler).Methods("GET")
 	router.HandleFunc("/", handler)
 
