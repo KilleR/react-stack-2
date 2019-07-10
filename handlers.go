@@ -42,7 +42,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	result := newApiResponse(w)
+	result := newAPIResponse(w)
 
 	defer result.Write()
 

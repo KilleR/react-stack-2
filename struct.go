@@ -18,7 +18,7 @@ type apiResponse struct {
 	Data   map[string]interface{}
 }
 
-func newApiResponse(w http.ResponseWriter) (res apiResponse) {
+func newAPIResponse(w http.ResponseWriter) (res apiResponse) {
 	res = apiResponse{
 		w:      w,
 		Status: 1,
