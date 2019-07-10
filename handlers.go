@@ -57,7 +57,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if loginReq.UserName != "RichardK" || loginReq.Password != "Password1!" {
+	if loginReq.UserName != "MotherNight" || loginReq.Password != "BrotherCrow" {
 		result.Status = http.StatusUnauthorized
 		return
 	}
