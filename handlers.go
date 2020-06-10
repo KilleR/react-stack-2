@@ -16,8 +16,6 @@ import (
 	"time"
 )
 
-var cache string
-
 func handler(w http.ResponseWriter, r *http.Request) {
 	index, err := ioutil.ReadFile("public/index.html")
 	if err != nil {
@@ -163,7 +161,5 @@ func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 	}
 
-	cache = cache + "cache"
-	fmt.Fprintln(w, cache)
 	io.Copy(w, bytes.NewReader(buf.Bytes()))
 }
