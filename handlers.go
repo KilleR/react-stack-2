@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/form3tech-oss/jwt-go"
 	"github.com/gorilla/mux"
 	"io"
@@ -115,7 +113,9 @@ func bucketListHandler(w http.ResponseWriter, r *http.Request) {
 func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 	sess := newAWSSession()
 
-	uploader := s3manager.NewUploader(sess)
+	S3 := s3.New(sess)
+
+	//uploader := s3manager.NewUploader(sess)
 
 	vars := mux.Vars(r)
 	bucket := vars["bucket"]
@@ -125,28 +125,46 @@ func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 		bucket = bucket + "/" + child
 	}
 
-	uploadConfig := &s3manager.UploadInput{
-		Body:   r.Body,
+	uploadInput := &s3.PutObjectInput{
+		Body:   aws.ReadSeekCloser(r.Body),
 		Bucket: aws.String("react-stack-data"),
 		Key:    aws.String(bucket),
 	}
-	contentType := r.Header.Get("content-type")
-	if contentType != "" {
-		uploadConfig.ContentType = aws.String(contentType)
-	}
-	res, err := uploader.Upload(uploadConfig)
+
+	res, err := S3.PutObject(uploadInput)
 
 	if err != nil {
 		fmt.Fprintln(w, err)
 	}
 
 	fmt.Fprintln(w, res)
+	return
+
+	//uploadConfig := &s3manager.UploadInput{
+	//	Body:   r.Body,
+	//	Bucket: aws.String("react-stack-data"),
+	//	Key:    aws.String(bucket),
+	//
+	//}
+	//contentType := r.Header.Get("content-type")
+	//if contentType != "" {
+	//	uploadConfig.ContentType = aws.String(contentType)
+	//}
+	//res, err := uploader.Upload(uploadConfig)
+	//
+	//if err != nil {
+	//	fmt.Fprintln(w, err)
+	//}
+	//
+	//fmt.Fprintln(w, res)
 }
 
 func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 	sess := newAWSSession()
 
-	downloader := s3manager.NewDownloader(sess)
+	S3 := s3.New(sess)
+
+	//downloader := s3manager.NewDownloader(sess)
 
 	vars := mux.Vars(r)
 	bucket := vars["bucket"]
@@ -156,8 +174,7 @@ func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 		bucket = bucket + "/" + child
 	}
 
-	buf := &aws.WriteAtBuffer{}
-	_, err := downloader.Download(buf, &s3.GetObjectInput{
+	res, err := S3.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String("react-stack-data"),
 		Key:    aws.String(bucket),
 	})
@@ -166,5 +183,19 @@ func bucketDownloadHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 	}
 
-	io.Copy(w, bytes.NewReader(buf.Bytes()))
+	io.Copy(w, res.Body)
+	return
+
+	//buf := &aws.WriteAtBuffer{}
+	//_, err := downloader.Download(buf, &s3.GetObjectInput{
+	//	Bucket: aws.String("react-stack-data"),
+	//	Key:    aws.String(bucket),
+	//
+	//})
+	//
+	//if err != nil {
+	//	fmt.Fprintln(w, err)
+	//}
+	//
+	//io.Copy(w, bytes.NewReader(buf.Bytes()))
 }
