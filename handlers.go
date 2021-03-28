@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
@@ -125,10 +126,17 @@ func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 		bucket = bucket + "/" + child
 	}
 
+	body, _ := ioutil.ReadAll(r.Body)
+
 	uploadInput := &s3.PutObjectInput{
-		Body:   aws.ReadSeekCloser(r.Body),
-		Bucket: aws.String("react-stack-data"),
-		Key:    aws.String(bucket),
+		Body:          aws.ReadSeekCloser(bytes.NewReader(body)),
+		Bucket:        aws.String("react-stack-data"),
+		Key:           aws.String(bucket),
+		ContentLength: aws.Int64(int64(len(body))),
+	}
+	contentType := r.Header.Get("content-type")
+	if contentType != "" {
+		uploadInput.ContentType = aws.String(contentType)
 	}
 
 	res, err := S3.PutObject(uploadInput)
