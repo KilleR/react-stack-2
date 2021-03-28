@@ -7,7 +7,7 @@ import (
 )
 
 /* Set up a global string for our secret */
-var mySigningKey = []byte("Jormungandr42LepersAtrophy")
+var mySigningKey = []byte("SoJormungandr42LepersAtrophy")
 
 var jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
 	ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
