@@ -125,11 +125,16 @@ func bucketUploadHandler(w http.ResponseWriter, r *http.Request) {
 		bucket = bucket + "/" + child
 	}
 
-	res, err := uploader.Upload(&s3manager.UploadInput{
+	uploadConfig := &s3manager.UploadInput{
 		Body:   r.Body,
 		Bucket: aws.String("react-stack-data"),
 		Key:    aws.String(bucket),
-	})
+	}
+	contentType := r.Header.Get("content-type")
+	if contentType != "" {
+		uploadConfig.ContentType = aws.String(contentType)
+	}
+	res, err := uploader.Upload(uploadConfig)
 
 	if err != nil {
 		fmt.Fprintln(w, err)
